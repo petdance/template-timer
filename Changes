@@ -1,6 +1,10 @@
 Revision history for Template::Timer
 
-NEXT
+Template::Timer is now hosted on github at
+http://github.com/petdance/template-timer/
+
+
+1.00    Fri Mar  6 23:32:49 CST 2009
 ====================================
 [ENHANCEMENTS]
 Measurements are now in milliseconds, not seconds.

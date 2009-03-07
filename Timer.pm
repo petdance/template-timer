@@ -9,11 +9,11 @@ Template::Timer - Rudimentary profiling for Template Toolkit
 
 =head1 VERSION
 
-Version 0.05_01
+Version 1.00
 
 =cut
 
-our $VERSION = '0.05_01';
+our $VERSION = '1.00';
 
 =head1 SYNOPSIS
 
@@ -22,6 +22,8 @@ througout your code.  It's an overridden version of L<Template::Context>
 that wraps the C<process()> and C<include()> methods.
 
 Using Template::Timer is simple.
+
+    use Template::Timer;
 
     my %config = ( # Whatever your config is
         INCLUDE_PATH    => '/my/template/path',

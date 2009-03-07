@@ -2,7 +2,7 @@ use strict;
 use warnings;
 use ExtUtils::MakeMaker;
 
-WriteMakefile(
+my %parms = (
     NAME                => 'Template::Timer',
     AUTHOR              => 'Andy Lester <andy@petdance.com>',
     VERSION_FROM        => 'Timer.pm',
@@ -17,6 +17,16 @@ WriteMakefile(
     clean               => { FILES => 'Template-Timer-*' },
 );
 
+if ( $ExtUtils::MakeMaker::VERSION ge '6.36' ) {
+    $parms{EXTRA_META} = <<EOF;
+resources:
+    license: http://dev.perl.org/licenses/
+    Repository: http://github.com/petdance/template-timer/
+EOF
+}
+
+
+WriteMakefile( %parms );
 
 sub MY::postamble {
     my $postamble = <<'MAKE_FRAG';
