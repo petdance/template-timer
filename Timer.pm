@@ -139,10 +139,13 @@ and to Gavin Estey for the original code.
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2005-2007 Andy Lester, All Rights Reserved.
+This library is free software; you can redistribute it and/or modify
+it under the terms of either the GNU Public License v3, or the Artistic
+License 2.0.
 
-This program is free software; you can redistribute it and/or modify it
-under the same terms as Perl itself.
+    * http://www.gnu.org/copyleft/gpl.html
+
+    * http://www.opensource.org/licenses/artistic-license-2.0.php
 
 =cut
 

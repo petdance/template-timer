@@ -41,9 +41,14 @@ To install this module, run the following commands:
     make install
 
 
-COPYRIGHT AND LICENCE
+COPYRIGHT AND LICENSE
 
-Copyright (C) 2004 Andy Lester
+Copyright (C) 2004-2009 Andy Lester
 
 This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+it under the terms of either the GNU Public License v3, or the Artistic
+License 2.0.
+
+    * http://www.gnu.org/copyleft/gpl.html
+
+    * http://www.opensource.org/licenses/artistic-license-2.0.php
