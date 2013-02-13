@@ -5,8 +5,8 @@ use warnings;
 
 use Test::More tests => 1;
 
-BEGIN {
-    use_ok( 'Template::Timer' );
-}
+use Template::Timer;
+
+pass( 'Module loaded' );
 
 diag( "Testing Template::Timer $Template::Timer::VERSION" );

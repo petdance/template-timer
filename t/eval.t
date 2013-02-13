@@ -3,15 +3,12 @@
 use strict;
 use warnings;
 
-use Test::More tests => 3;
+use Test::More tests => 2;
 
-BEGIN {
-    use_ok( 'Template' );
-}
+use Template;
+use Template::Timer;
 
-BEGIN {
-    use_ok( 'Template::Timer' );
-}
+pass( 'Module loaded' );
 
 my $tt =
     Template->new( {
