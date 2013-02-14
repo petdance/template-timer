@@ -3,7 +3,7 @@ Revision history for Template::Timer
 Template::Timer is now hosted on github at
 http://github.com/petdance/template-timer/
 
-1.01_01
+1.01_01 Thu Feb 14 10:24:18 CST 2013
 ====================================
 [FIXES]
 Don't crash on evals, or if a ref isn't a Template::Document or an ARRAY
