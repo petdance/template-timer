@@ -13,7 +13,7 @@ Version 1.00
 
 =cut
 
-our $VERSION = '1.00';
+our $VERSION = '1.01_01';
 
 =head1 SYNOPSIS
 
@@ -65,7 +65,7 @@ our $epoch = undef;
 our @totals;
 
 foreach my $sub ( qw( process include ) ) {
-    no strict;
+    no strict 'refs';
     my $super = __PACKAGE__->can("SUPER::$sub") or die;
     *{$sub} = sub {
         my $self = shift;
@@ -141,13 +141,13 @@ and to Gavin Estey for the original code.
 
 =head1 COPYRIGHT & LICENSE
 
-This library is free software; you can redistribute it and/or modify
-it under the terms of either the GNU Public License v3, or the Artistic
-License 2.0.
+Copyright 2005-2013 Andy Lester.
 
-    * http://www.gnu.org/copyleft/gpl.html
+This program is free software; you can redistribute it and/or modify
+it under the terms of the Artistic License v2.0.
 
-    * http://www.opensource.org/licenses/artistic-license-2.0.php
+See http://www.perlfoundation.org/artistic_license_2_0 or the LICENSE.md
+file that comes with the ack distribution.
 
 =cut
 

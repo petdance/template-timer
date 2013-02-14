@@ -17,12 +17,19 @@ my %parms = (
     clean               => { FILES => 'Template-Timer-*' },
 );
 
-if ( $ExtUtils::MakeMaker::VERSION ge '6.36' ) {
-    $parms{EXTRA_META} = <<EOF;
-resources:
-    license: http://dev.perl.org/licenses/
-    Repository: http://github.com/petdance/template-timer/
-EOF
+if ( $ExtUtils::MakeMaker::VERSION =~ /^\d\.\d\d$/ and $ExtUtils::MakeMaker::VERSION > 6.30 ) {
+    $parms{LICENSE} = 'artistic_2';
+}
+
+if ( $ExtUtils::MakeMaker::VERSION ge '6.46' ) {
+    $parms{META_MERGE} = {
+        resources => {
+            bugtracker  => 'http://rt.cpan.org/Public/Dist/Display.html?Name=Template-Timer',
+            license     => 'http://www.perlfoundation.org/artistic_license_2_0',
+            repository  => 'https://github.com/petdance/template-timer',
+            MailingList => 'http://groups.google.com/group/ack-users',
+        }
+    };
 }
 
 
