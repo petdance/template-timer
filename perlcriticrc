@@ -1,6 +1,10 @@
+verbose = %f:%l:%c %m (%p)\n
+
 [-CodeLayout::ProhibitParensWithBuiltins]
 [CodeLayout::ProhibitHardTabs]
 allow_leading_tabs = 0
+[-CodeLayout::RequireTidyCode]
+# Never works for me.
 
 [-ControlStructures::ProhibitPostfixControls]
 
@@ -19,6 +23,11 @@ allow_leading_tabs = 0
 [-RegularExpressions::RequireExtendedFormatting]
 [-RegularExpressions::RequireLineBoundaryMatching]
 
+[-TestingAndDebugging::ProhibitNoStrict]
+[-TestingAndDebugging::ProhibitNoWarnings]
+# If I've turned off warnings or strict, I know why I'm doing it.
+
 [-ValuesAndExpressions::ProhibitEmptyQuotes]
 
+[-Variables::ProhibitPackageVars]
 [-Variables::ProhibitPunctuationVars]
