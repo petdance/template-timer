@@ -11,8 +11,9 @@ BEGIN {
 
     # Return fake times for consistent output
     use Time::HiRes;
-    sub Time::HiRes::gettimeofday { return 0.000; };
-    sub Time::HiRes::tv_interval  { return 0.000; };
+    my $interval = 0;
+    sub Time::HiRes::Gettimeofday { return 0.000; };
+    sub Time::HiRes::tv_interval  { return $interval += 0.250; };
 }
 
 $Template::Test::DEBUG = 1;
@@ -36,8 +37,8 @@ __DATA__
 The cat sat on the hat
 
 <!-- SUMMARY
-L1   0.000          P input text
-L2   0.000           P (evaluated block)
-L2   0.000   0.000   P (evaluated block)
-L1   0.000   0.000  P input text
+L1 250.000          P input text
+L2 500.000           P (evaluated block)
+L2 750.000 1000.000   P (evaluated block)
+L1 1250.000 1500.000  P input text
 -->
