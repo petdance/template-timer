@@ -40,17 +40,25 @@ Using Template::Timer is simple.
 Now when you process templates, HTML comments will get embedded in your
 output, which you can easily grep for.  The nesting level is also shown.
 
-    <!-- TIMER START: L1 process mainmenu/mainmenu.ttml -->
-    <!-- TIMER START: L2 include mainmenu/cssindex.tt -->
-    <!-- TIMER START: L3 process mainmenu/cssindex.tt -->
-    <!-- TIMER END:   L3 process mainmenu/cssindex.tt (17.279 ms) -->
-    <!-- TIMER END:   L2 include mainmenu/cssindex.tt (17.401 ms) -->
+    <!-- SUMMARY
+    L1      0.014             P page/search/display.ttml
+    L2    251.423              I element/framework/page-end.tt
+    L3    251.434               P element/framework/page-end.tt
+    L4    254.103                I element/framework/epilogue.tt
+    L5    254.114                 P element/framework/epilogue.tt
+    L4    251.748                I element/framework/footer.tt
+    L5    251.759                 P element/framework/footer.tt
 
     ....
 
-    <!-- TIMER END:   L3 process mainmenu/footer.tt (3.016 ms) -->
-    <!-- TIMER END:   L2 include mainmenu/footer.tt (3.104 ms) -->
-    <!-- TIMER END:   L1 process mainmenu/mainmenu.ttml (400.409 ms) -->
+    L5    253.661      1.913      P element/framework/footer.tt
+    L4    253.880      2.144     I element/framework/footer.tt
+    L5    254.400      0.297      P element/framework/epilogue.tt
+    L4    254.651      0.560     I element/framework/epilogue.tt
+    L3    254.953      3.530    P element/framework/page-end.tt
+    L2    255.167      3.755   I element/framework/page-end.tt
+    L1    281.857    281.871  P page/search/display.ttml
+    -->
 
 Note that since INCLUDE is a wrapper around PROCESS, calls to INCLUDEs
 will be doubled up, and slightly longer than the PROCESS call.
@@ -95,7 +103,7 @@ foreach my $sub ( qw( process include ) ) {
         my $spacing = ' ' x $level;
         my $level_elapsed = _diff_disp($start);
         my $ip = uc substr( $sub, 0, 1 );
-        my $start_stats = "L$level $epoch_elapsed_start         $spacing$ip $template";
+        my $start_stats = "L$level $epoch_elapsed_start            $spacing$ip $template";
         my $end_stats =   "L$level $epoch_elapsed_end $level_elapsed $spacing$ip $template";
         @totals = ( $start_stats, @totals, $end_stats );
         if ( $level > 1 ) {
@@ -117,7 +125,7 @@ foreach my $sub ( qw( process include ) ) {
 sub _diff_disp {
     my $starting_point = shift;
 
-    return sprintf( '%7.3f', Time::HiRes::tv_interval($starting_point) * 1000 );
+    return sprintf( '%10.3f', Time::HiRes::tv_interval($starting_point) * 1000 );
 }
 
 
