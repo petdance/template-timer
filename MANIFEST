@@ -3,7 +3,7 @@ LICENSE.md
 MANIFEST
 META.yml # Will be created by "make dist"
 Makefile.PL
-README
+README.md
 Timer.pm
 t/00-load.t
 t/eval.t
