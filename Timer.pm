@@ -66,7 +66,7 @@ our @totals;
 
 foreach my $sub ( qw( process include ) ) {
     no strict 'refs';
-    my $super = __PACKAGE__->can("SUPER::$sub") or die;
+    my $super = __PACKAGE__->can($sub) or die;
     *{$sub} = sub {
         my $self = shift;
         my $what = shift;
