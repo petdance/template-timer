@@ -11,9 +11,9 @@ BEGIN {
 
     # Return fake times for consistent output
     use Time::HiRes;
-    my $interval = 0;
-    sub Time::HiRes::Gettimeofday { return 0.000; };
-    sub Time::HiRes::tv_interval  { return $interval += 0.250; };
+    my $interval = 0; # Make the tv_interval return different numbers each time
+    sub Time::HiRes::gettimeofday { return 0.000; }
+    sub Time::HiRes::tv_interval  { return $interval += 0.250; }
 }
 
 $Template::Test::DEBUG = 1;
