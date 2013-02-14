@@ -9,7 +9,7 @@ Template::Timer - Rudimentary profiling for Template Toolkit
 
 =head1 VERSION
 
-Version 1.00
+Version 1.01_01
 
 =cut
 
