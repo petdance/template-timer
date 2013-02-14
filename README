@@ -1,6 +1,9 @@
-Template::Timer provides inline timings of the template processing
-througout your code.  It's an overridden version of Template::Context
-that wraps the process() and include() methods.
+# Template::Timer
+
+Template::Timer provides inline timings of the time Template Toolkit
+spends in template processing througout your code.  It's an overridden
+version of Template::Context that wraps the process() and include()
+methods.
 
 Using Template::Timer is simple.
 
@@ -31,7 +34,7 @@ output, which you can easily grep for.
     <!-- TIMER END: include mainmenu/footer.tt (0.003104 seconds) -->
     <!-- TIMER END: process mainmenu/mainmenu.ttml (0.400409 seconds) -->
 
-INSTALLATION
+# INSTALLATION
 
 To install this module, run the following commands:
 
@@ -41,14 +44,12 @@ To install this module, run the following commands:
     make install
 
 
-COPYRIGHT AND LICENSE
+# COPYRIGHT AND LICENSE
 
-Copyright (C) 2004-2009 Andy Lester
+Copyright 2005-2013 Andy Lester.
 
-This library is free software; you can redistribute it and/or modify
-it under the terms of either the GNU Public License v3, or the Artistic
-License 2.0.
+This program is free software; you can redistribute it and/or modify
+it under the terms of the Artistic License v2.0.
 
-    * http://www.gnu.org/copyleft/gpl.html
-
-    * http://www.opensource.org/licenses/artistic-license-2.0.php
+See http://www.perlfoundation.org/artistic_license_2_0 or the LICENSE.md
+file that comes with the ack distribution.
