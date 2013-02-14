@@ -3,26 +3,41 @@
 use strict;
 use warnings;
 
-use Test::More tests => 2;
-
-use Template;
 use Template::Timer;
+use Template::Test;
 
-pass( 'Module loaded' );
+BEGIN {
+    no warnings;
 
-my $tt =
-    Template->new( {
-        CONTEXT => Template::Timer->new
-    } );
-
-my $block = q{[% thing = 'doohickey' %]};
-
-TODO: { # See RT # 13225
-    local $TODO = 'Problem identified but not fixed';
-    my $rc = $tt->process( \*DATA, { block => $block } );
-    ok( $rc, 'eval' );
+    # Return fake times for consistent output
+    use Time::HiRes;
+    sub Time::HiRes::gettimeofday { return 0.000; };
+    sub Time::HiRes::tv_interval  { return 0.000; };
 }
 
+$Template::Test::DEBUG = 1;
+
+my $tt = Template->new({
+        CONTEXT => Template::Timer->new,
+    });
+
+my $vars = {
+    place    => 'hat',
+    fragment => "The cat sat on the [% place %]\n",
+};
+
+
+test_expect(\*DATA, $tt, $vars);
+
 __DATA__
-[% block | eval %]
-[% thing %]
+-- test --
+[% fragment | eval -%]
+-- expect --
+The cat sat on the hat
+
+<!-- SUMMARY
+L1   0.000          P input text
+L2   0.000           P (evaluated block)
+L2   0.000   0.000   P (evaluated block)
+L1   0.000   0.000  P input text
+-->
