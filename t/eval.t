@@ -11,9 +11,9 @@ BEGIN {
 
     # Return fake times for consistent output
     use Time::HiRes;
-    my $interval = 0; # Make the tv_interval return different numbers each time
-    sub Time::HiRes::gettimeofday { return 0.000; }
-    sub Time::HiRes::tv_interval  { return $interval += 0.001; }
+    my $time = 1;
+    my $inc  = 1;
+    sub Time::HiRes::time { return ($time += $inc++)/1000 };
 }
 
 $Template::Test::DEBUG = 1;
@@ -30,7 +30,7 @@ my $vars = {
     numbers  => [ 2112, 5150, 90125 ],
 };
 
-
+# print $tt->process( \*DATA, $vars );
 test_expect(\*DATA, $tt, $vars);
 
 __DATA__
@@ -49,20 +49,20 @@ The cat sat on the hat
     n = 5150
     n = 90125
 
-I am in INCLUDEd file.
+I am an INCLUDEd file.
 
 I am a PROCESSed file.
 
 
 <!-- SUMMARY
-L1      1.000             P input text
-L2     11.000              P process.tt
-L2      5.000              I include.tt
-L3      6.000               P include.tt
+L1      0.000             P input text
 L2      2.000              P (evaluated block)
-L2      3.000      4.000   P (evaluated block)
-L3      7.000      8.000    P include.tt
-L2      9.000     10.000   I include.tt
-L2     12.000     13.000   P process.tt
-L1     14.000     15.000  P input text
+L2      5.000      3.000   P (evaluated block)
+L2      9.000              I include.tt
+L3     14.000               P include.tt
+L3     20.000      6.000    P include.tt
+L2     27.000     18.000   I include.tt
+L2     35.000              P process.tt
+L2     44.000      9.000   P process.tt
+L1     54.000     54.000  P input text
 -->

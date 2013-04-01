@@ -9,11 +9,11 @@ Template::Timer - Rudimentary profiling for Template Toolkit
 
 =head1 VERSION
 
-Version 1.01_01
+Version 1.01_02
 
 =cut
 
-our $VERSION = '1.01_01';
+our $VERSION = '1.01_02';
 
 =head1 SYNOPSIS
 
@@ -41,23 +41,35 @@ Now when you process templates, HTML comments will get embedded in your
 output, which you can easily grep for.  The nesting level is also shown.
 
     <!-- SUMMARY
-    L1      0.014             P page/search/display.ttml
-    L2    251.423              I element/framework/page-end.tt
-    L3    251.434               P element/framework/page-end.tt
-    L4    254.103                I element/framework/epilogue.tt
-    L5    254.114                 P element/framework/epilogue.tt
-    L4    251.748                I element/framework/footer.tt
-    L5    251.759                 P element/framework/footer.tt
+    L1      0.000             P page/search/display.ttml
+    L2      0.189              I element/framework/page-start.tt
+    L3      0.206               P element/framework/page-start.tt
+    L4      0.571                I element/framework/preface.tt
+    L5      0.585                 P element/framework/preface.tt
+    L5      2.318      1.733      P element/framework/preface.tt
+    L4      2.332      1.761     I element/framework/preface.tt
+    L4      2.348                I element/framework/header.tt
 
-    ....
-
-    L5    253.661      1.913      P element/framework/footer.tt
-    L4    253.880      2.144     I element/framework/footer.tt
-    L5    254.400      0.297      P element/framework/epilogue.tt
-    L4    254.651      0.560     I element/framework/epilogue.tt
-    L3    254.953      3.530    P element/framework/page-end.tt
-    L2    255.167      3.755   I element/framework/page-end.tt
-    L1    281.857    281.871  P page/search/display.ttml
+    L4    378.117      0.439     I element/framework/content/line-item/paging.tt
+    L3    379.055    221.078    P element/framework/content/line-items.tt
+    L2    379.099    221.131   I element/framework/content/line-items.tt
+    L2    379.310              I element/atom/inplace-edit-mynotes.tt
+    L3    379.321               P element/atom/inplace-edit-mynotes.tt
+    L3    381.038      1.717    P element/atom/inplace-edit-mynotes.tt
+    L2    381.050      1.740   I element/atom/inplace-edit-mynotes.tt
+    L2    381.061              I element/framework/page-end.tt
+    L3    381.068               P element/framework/page-end.tt
+    L4    381.350                I element/framework/footer.tt
+    L5    381.361                 P element/framework/footer.tt
+    L5    382.988      1.627      P element/framework/footer.tt
+    L4    383.001      1.651     I element/framework/footer.tt
+    L4    383.015                I element/framework/epilogue.tt
+    L5    383.022                 P element/framework/epilogue.tt
+    L5    383.320      0.298      P element/framework/epilogue.tt
+    L4    383.331      0.316     I element/framework/epilogue.tt
+    L3    383.369      2.301    P element/framework/page-end.tt
+    L2    383.377      2.316   I element/framework/page-end.tt
+    L1    387.852    387.852  P page/search/display.ttml
     -->
 
 Note that since INCLUDE is a wrapper around PROCESS, calls to INCLUDEs
@@ -73,6 +85,8 @@ our $epoch = undef;
 our @totals;
 
 foreach my $sub ( qw( process include ) ) {
+    my $ip = uc substr( $sub, 0, 1 ); # Include or Process?
+
     no strict 'refs';
     my $super = __PACKAGE__->can($sub) or die;
     *{$sub} = sub {
@@ -86,27 +100,24 @@ foreach my $sub ( qw( process include ) ) {
             :                                      $what
             ;
 
-        my $level;
-        my $processed_data;
-        my $epoch_elapsed_start;
-        my $epoch_elapsed_end;
-        my $now   = [Time::HiRes::gettimeofday];
-        my $start = [@{$now}];
-        DOIT: {
-            local $epoch = $epoch ? $epoch : [@{$now}];
-            local $depth = $depth + 1;
-            $level = $depth;
-            $epoch_elapsed_start = _diff_disp($epoch);
-            $processed_data = $super->($self, $what, @_);
-            $epoch_elapsed_end = _diff_disp($epoch);
-        }
-        my $spacing = ' ' x $level;
-        my $level_elapsed = _diff_disp($start);
-        my $ip = uc substr( $sub, 0, 1 );
-        my $start_stats = "L$level $epoch_elapsed_start            $spacing$ip $template";
-        my $end_stats =   "L$level $epoch_elapsed_end $level_elapsed $spacing$ip $template";
-        @totals = ( $start_stats, @totals, $end_stats );
-        if ( $level > 1 ) {
+        local $depth = $depth + 1;
+        my $spacing = ' ' x $depth;
+
+        my $start = Time::HiRes::time();
+        local $epoch = $epoch ? $epoch : $start;
+        my $epoch_elapsed_start = _diff_disp($epoch, $start);
+        my $start_stats = "L$depth $epoch_elapsed_start            $spacing$ip $template";
+        push @totals, $start_stats;
+
+        my $processed_data = $super->($self, $what, @_);
+
+        my $end               = Time::HiRes::time();
+        my $epoch_elapsed_end = _diff_disp($epoch, $end);
+        my $level_elapsed     = _diff_disp($start, $end);
+        my $end_stats         = "L$depth $epoch_elapsed_end $level_elapsed $spacing$ip $template";
+        push @totals, $end_stats;
+
+        if ( $depth > 1 ) {
             return $processed_data;
         }
 
@@ -124,8 +135,9 @@ foreach my $sub ( qw( process include ) ) {
 
 sub _diff_disp {
     my $starting_point = shift;
+    my $ending_point   = shift;
 
-    return sprintf( '%10.3f', Time::HiRes::tv_interval($starting_point) * 1000 );
+    return sprintf( '%10.3f', ($ending_point - $starting_point) * 1000 );
 }
 
 

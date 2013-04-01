@@ -3,6 +3,13 @@ Revision history for Template::Timer
 Template::Timer is now hosted on github at
 http://github.com/petdance/template-timer/
 
+1.01_02
+====================================
+[FIXES]
+Fixed the ordering of the output rows, and made the internal tracking
+simpler.
+
+
 1.01_01 Thu Feb 14 10:24:18 CST 2013
 ====================================
 [FIXES]
