@@ -27,7 +27,6 @@ if ( $ExtUtils::MakeMaker::VERSION ge '6.46' ) {
             bugtracker  => 'http://rt.cpan.org/Public/Dist/Display.html?Name=Template-Timer',
             license     => 'http://www.perlfoundation.org/artistic_license_2_0',
             repository  => 'https://github.com/petdance/template-timer',
-            MailingList => 'http://groups.google.com/group/ack-users',
         }
     };
 }
