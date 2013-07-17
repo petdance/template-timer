@@ -18,7 +18,7 @@ our $VERSION = '1.01_02';
 =head1 SYNOPSIS
 
 Template::Timer provides inline timings of the template processing
-througout your code.  It's an overridden version of L<Template::Context>
+throughout your code.  It's an overridden version of L<Template::Context>
 that wraps the C<process()> and C<include()> methods.
 
 Using Template::Timer is simple.
